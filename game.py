@@ -28,10 +28,10 @@ class User:
     def place_bet(self, match: Match, score: Score):
         return Bet(self, match, score)
     
-    def add_points(self, point):
+    def add_points(self, point: int):
         self.points += point
     
-    def get_points(self):
+    def get_points(self) -> int:
         return self.points
 
 class Bet:
@@ -41,25 +41,32 @@ class Bet:
         self.score = score
         
     def validate_bet(self):
-        sign = lambda a: True if a>0 else -1 if a<0 else False
+        sign = lambda a: True if a>0 else False if a<0 else False
         match_score = self.match.get_score()
         winner = match_score.goal_home - match_score.goal_away
+        goals_scored = match_score.goal_home + match_score.goal_away
         predicted_winner = self.score.goal_home - self.score.goal_away
+        goals_predicted = self.score.goal_home + self.score.goal_away
         score_diff_home = abs(match_score.goal_home - self.score.goal_home)
         score_diff_away = abs(match_score.goal_away - self.score.goal_away)
         if sign(winner) and sign(predicted_winner):
-            self.user.add_points(3)
+            self.user.add_points(1)
             for i in range(3):
-                if score_diff_home == i:
-                    self.user.add_points(2-i)
-                if score_diff_away == i:
-                    self.user.add_points(2-i)
+                if score_diff_away + score_diff_home < 4:
+                    if score_diff_home == i:
+                        self.user.add_points(2-i)
+                    
+                    if score_diff_away == i:
+                        self.user.add_points(2-i)
+        
+        if (winner == predicted_winner) and (goals_scored == goals_predicted):
+            self.user.add_points(1)
 
 user1 = User('michal')
 france = Team('France')
 belgium = Team('Belgium')
 match1 = Match(france, belgium)
 bet1  = user1.place_bet(match1, Score(1,0))
-match1.set_score(Score(1,0))
+match1.set_score(Score(2,0))
 bet1.validate_bet()
 print(user1.get_points())
