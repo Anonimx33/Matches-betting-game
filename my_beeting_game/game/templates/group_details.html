@@ -1,0 +1,23 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Details about {{ group.group_name }}
+{% endblock %}
+
+
+{% block content %}
+<h1>Group: {{ group.group_name }}</h1>
+  
+  <ul>
+    {% for x in teams%}
+      <li>{{ x.team_name }}</li>
+    {% endfor %}
+  </ul>
+
+  <ul>
+    {% for x in matches%}
+      <li>{{ x}}</li>
+    {% endfor %}
+  </ul>
+
+  {% endblock %}
