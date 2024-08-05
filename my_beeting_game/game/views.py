@@ -15,7 +15,7 @@ def game(request):
 
 def details(request, id):
     group = Group.objects.get(id=id)
-    teams = group.teams.all()
+    teams = group.teams.all().order_by('-points', '-wins', '-goals_scored', 'team_name')
     if group.matches.count() != 6:
         group.matches.clear()
         for j in range(3):
@@ -30,7 +30,7 @@ def details(request, id):
                     match = Match.objects.create()
                     match.teams.set([teams[i], teams[3-i]])
                 group.matches.add(match)
-    matches = group.matches.all()
+    matches = group.matches.all().order_by('match_date')
     template = loader.get_template('group_details.html')
     context = {
         'group': group,

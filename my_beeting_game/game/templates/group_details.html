@@ -8,12 +8,31 @@
 {% block content %}
 <h1>Group: {{ group.group_name }}</h1>
   
-  <ul>
-    {% for x in teams%}
-      <li>{{ x.team_name }}</li>
-    {% endfor %}
-  </ul>
-
+  <table>
+    <thead>
+      <th> Team </th>
+      <th> Matches </th>
+      <th> Wins </th>
+      <th> Draws </th>
+      <th> Loses </th>
+      <th> Goals </th>
+      <th> Points </th>
+    </thead>
+    <tbody>
+      {% for team in teams%}
+      <tr>
+        <td>{{ team.team_name}}</td>
+        <td>{{ team.matches_played}}</td>
+        <td>{{ team.wins}}</td>
+        <td>{{ team.draws}}</td>
+        <td>{{ team.loses}}</td>
+        <td>{{ team.goals_scored}}:{{team.goals_lost}} </td>
+        <td>{{ team.points}}</td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+  
   <ul>
     {% for x in matches%}
       <li>{{ x}}</li>

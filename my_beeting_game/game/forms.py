@@ -1,12 +1,13 @@
 from django import forms
-from .models import Team, Group, Membership
+from .models import Team, Group
 
 class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = ['team_name']
+        fields = '__all__'
 
-class GroupForm(forms.ModelForm):
+class GroupNameForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['group_name']
+    
